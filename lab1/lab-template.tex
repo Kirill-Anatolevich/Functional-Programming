@@ -1,0 +1,155 @@
+\documentclass[12pt]{article}
+
+\usepackage{fullpage}
+\usepackage{multicol,multirow}
+\usepackage{tabularx}
+\usepackage{ulem}
+\usepackage[utf8]{inputenc}
+\usepackage[russian]{babel}
+\usepackage{amsmath}
+\usepackage{amssymb}
+
+
+\usepackage{titlesec}
+
+\titleformat{\section}
+  {\normalfont\Large\bfseries}{\thesection.}{0.3em}{}
+
+\titleformat{\subsection}
+  {\normalfont\large\bfseries}{\thesubsection.}{0.3em}{}
+
+\titlespacing{\section}{0pt}{*2}{*2}
+\titlespacing{\subsection}{0pt}{*1}{*1}
+\titlespacing{\subsubsection}{0pt}{*0}{*0}
+\usepackage{listings}
+\lstloadlanguages{Lisp}
+\lstset{extendedchars=false,
+	breaklines=true,
+	breakatwhitespace=true,
+	keepspaces = true,
+	tabsize=2
+}
+\begin{document}
+
+
+\section*{Отчет по лабораторной работе №\,1
+по курсу \guillemotleft  Функциональное программирование\guillemotright}
+\begin{flushright}
+Студент группы 8О-307 МАИ \textit{Спиридонов Кирилл}, \textnumero 18 по списку \\
+\makebox[7cm]{Контакты: {\tt vo-ro@list.ru} \hfill} \\
+\makebox[7cm]{Работа выполнена: 21.03.22 \hfill} \\
+\ \\
+Преподаватель: Иванов Дмитрий Анатольевич, доц. каф. 806 \\
+\makebox[7cm]{Отчет сдан: \hfill} \\
+\makebox[7cm]{Итоговая оценка: \hfill} \\
+\makebox[7cm]{Подпись преподавателя: \hfill} \\
+
+\end{flushright}
+
+\section{Тема работы}
+{\large Примитивные функции и особые операторы Коммон Лисп \par}
+
+\section{Цель работы}
+{\large Научиться пользоваться базовыми операторами такими как: if, cond. Строить
+логические выражения с помощью булевых операций AND, OR, NOT. Определять функции
+и вызывать их в Лисп-системе. \par}
+
+\section{Задание (вариант №1.32)}
+{\large 
+Поле шахматной доски определяется парой натуральных чисел, каждое из которых не превосходит восьми:
+\begin{itemize} 
+	\item первое число - номер вертикали (при счете слева направо).
+	\item второе - номер горизонтали (при счете снизу вверх),
+\end{itemize}
+Определите на языке Коммон Лисп функцию c четырьмя параметрами --- натуральными 
+числам {\tt k, l, m, n,} каждое из которых не превосходит восьми.
+
+
+{\tt k, l} \\
+	Задают поле, на котором расположена фигура - конь. \\
+
+{\tt m, n} \\
+	    Задают поле, куда он должен попасть. \\
+
+Функция должна возвращать: \\
+
+{\tt T} \\
+	если конь {\tt (k,l)} может попасть на поле {\tt (m,n)} за один ход; \\
+
+{\tt i,j} \\
+    - два значения с помощью values, если конь {\tt (k,l)} может попасть на 
+	поле {\tt(m,n)} за два хода через поле {\tt (i,j)}; \\
+
+{\tt NIL} \\
+    если конь не может перейти на указанное поле ни за одни, ни за два хода. \\
+
+Примеры \\
+(knight-moves 1 1 3 2) => T \\
+(knight-moves 1 1 5 3) => 3, 2 \\
+(knight-moves 1 1 8 8) => NIL \\
+}
+
+\section{Оборудование студента}
+{\large Процессор Intel(R) Core(TM) i5-8250U CPU @ 1.60GHz, память: 8192Gb, разрядность системы: 64.}
+
+\section{Программное обеспечение}
+{\large ОС Ubuntu 20.04 LTS, среда LispWorks Personal Edition 7.1.2}
+
+\section{Идея, метод, алгоритм}
+{\large 
+Идея алгоритма простая. Имеется вспомногательная функция {\tt check-next (k l m n)},
+которая возращает {\tt T}, если из текущей позиции {\tt (k, l)} можно достич позиции {\tt (m, n)}.
+Основная функция {\tt knight-moves (k l m n)} принимает начальные данные и проверяет при
+помощи {\tt check-next} можно ли за один ход достич {\tt (m, n)}, если да, то возращается {\tt T}.
+Иначе проходимся по остальным позициям так, будто бы уже был сделан шаг. И если функция 
+{\tt check-next} вернёт {\tt T}, то возращаем пару {\tt i, j} откуда был сделан шаг. Если
+не найдётся таких клеток, вернётся {\tt NIL}.\\
+}
+
+\section{Сценарий выполнения работы}
+
+\section{Распечатка программы и её результаты}
+
+\subsection{Исходный код}
+\lstinputlisting{./lab1.lisp}
+
+\subsection{Результаты работы}
+% \lstinputlisting{./log2.lisp}
+
+{\large 
+CL-USER 2 > (knight-moves 1 1 2 3) \\ T \\
+CL-USER 3 > (knight-moves 2 2 3 3) \\ 4 \\ 1 \\
+CL-USER 4 > (knight-moves 1 1 8 8) \\ NIL \\
+CL-USER 5 > (knight-moves 3 3 3 3) \\ 5 \\ 4 \\
+CL-USER 6 > (knight-moves 6 6 4 3) \\ NIL \\ 
+CL-USER 7 > (knight-moves 7 7 6 5) \\ T
+}
+
+\section{Дневник отладки}
+\begin{tabular}{|c|c|c|c|}
+\hline
+Дата & Событие & Действие по исправлению & Примечание \\
+\hline
+\end{tabular}
+
+\section{Замечания автора по существу работы}
+{\large 
+Изначально хотел реализовать рекурсивно, использова доболнительную функцию, которая считает глубину.
+Но были проблемы с выводом результата. Провозился часов 6 и ни к чему не пришёл. 
+Рекурсия здесь выглядила бы лучше. Но т.к.
+считается всего два шага, то можно можно как сделал я.
+Наметки для рекурсии:
+
+\lstinputlisting{./extra.lisp}
+
+Программа работает за константное время O(1). Данная программа работает только для текущей
+задачи, т.е. просмотр на 1 или 2 шага вперёд. 
+}
+
+\section{Выводы}
+{\large 
+В ходе выполнения лабораторной работы я познакомился с основами языка CommonLisp:
+создавать и использовать функции, пользоваться условными операторами.
+
+
+\end{document}
