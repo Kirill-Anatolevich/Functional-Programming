@@ -1,0 +1,130 @@
+\documentclass[12pt]{article}
+
+\usepackage{fullpage}
+\usepackage{multicol,multirow}
+\usepackage{tabularx}
+\usepackage{ulem}
+\usepackage[utf8]{inputenc}
+\usepackage[russian]{babel}
+\usepackage{amsmath}
+\usepackage{amssymb}
+
+
+\usepackage{titlesec}
+
+\titleformat{\section}
+  {\normalfont\Large\bfseries}{\thesection.}{0.3em}{}
+
+\titleformat{\subsection}
+  {\normalfont\large\bfseries}{\thesubsection.}{0.3em}{}
+
+\titlespacing{\section}{0pt}{*2}{*2}
+\titlespacing{\subsection}{0pt}{*1}{*1}
+\titlespacing{\subsubsection}{0pt}{*0}{*0}
+\usepackage{listings}
+\lstloadlanguages{Lisp}
+\lstset{extendedchars=false,
+	breaklines=true,
+	breakatwhitespace=true,
+	keepspaces = true,
+	tabsize=2
+}
+\begin{document}
+
+
+\section*{Отчет по лабораторной работе №\,2
+по курсу \guillemotleft  Функциональное программирование\guillemotright}
+\begin{flushright}
+Студент группы 8О-307 МАИ \textit{Спиридонов Кирилл}, \textnumero 18 по списку \\
+\makebox[7cm]{Контакты: {\tt vo-ro@list.ru} \hfill} \\
+\makebox[7cm]{Работа выполнена: 02.04.22 \hfill} \\
+\ \\
+Преподаватель: Иванов Дмитрий Анатольевич, доц. каф. 806 \\
+\makebox[7cm]{Отчет сдан: \hfill} \\
+\makebox[7cm]{Итоговая оценка: \hfill} \\
+\makebox[7cm]{Подпись преподавателя: \hfill} \\
+
+\end{flushright}
+
+\section{Тема работы}
+{\large Простейшие функции работы со списками Коммон Лисп \par}
+
+\section{Цель работы}
+{\large Освоить списки в Коммон Лисп. Операции над ними. Применить селекторы.
+	Научиться пользоваться map-функционалом. Воспользоваться лямбда-выражениями.\par}
+
+\section{Задание (вариант №2.9)}
+{\large 
+	Дан список действительных чисел $(x_1,...,x_n), n\ge2.$ \\
+	Запрограммируйте рекурсивно на языке Коммон Лисп функцию, вычисляющую выражение вида: \\
+	$(x_1 * x_n) + (x_2 * x_{n-1})+...+(x_n * x_1).$ \\
+
+Примеры \\
+(sum-product2 '(1 2 3 4 5)) => \\
+ (1*5) + (2*4) + (3*3) + (4*2) + (5*1) => \\
+ 5 + 8 + 9 + 8 + 5 => 35 \\
+}
+
+\section{Оборудование студента}
+{\large Процессор Intel(R) Core(TM) i5-8250U CPU @ 1.60GHz, память: 8192Gb, разрядность системы: 64.}
+
+\section{Программное обеспечение}
+{\large ОС Ubuntu 20.04 LTS, среда LispWorks Personal Edition 7.1.2}
+
+\section{Идея, метод, алгоритм}
+{\large 
+Идея алгоритма простая. Имеется исходная функция {\tt sum-product2 (l)}, которая 
+принимает список и возращает сумму элементов, попарно перемноженных соответствующих
+элементов исходного списка с перевернутым этим же списком. Переворачивание списка 
+осуществляется при помощи встроенной функции {\tt reverse (l)}. Для поэлементного умножения
+воспользуемся лямбда-выражением {\tt(lambda (x1 x2) (* x1 x2))}. В итоге получим список, который состоит из
+перемноженных соответствующих элементов исходного списка с перевернутым 
+этим же списком. Для него вызываем функцию {\tt sum-of-list (l)}, которая возращает 
+сумму всех элементов списка. Полученная сумма и будет ответом на задачу.
+
+}
+
+\section{Сценарий выполнения работы}
+
+\section{Распечатка программы и её результаты}
+
+\subsection{Исходный код}
+\lstinputlisting{./lab2.lisp}
+
+\subsection{Результаты работы}
+% \lstinputlisting{./log2.lisp}
+
+{\large 
+CL-USER 4 > 
+(sum-product2 (list 1 2 3 4 5)) \\
+35 \\
+CL-USER 5 > (sum-product2 (list 3 5 8 9 1)) \\
+160 \\
+CL-USER 6 > (sum-product2 (list 3 4 4 3)) \\
+50 \\
+CL-USER 7 > (sum-product2 (list 5 0 1 -2 3)) \\
+31 \\
+}
+
+\section{Дневник отладки}
+\begin{tabular}{|c|c|c|c|}
+\hline
+Дата & Событие & Действие по исправлению & Примечание \\
+\hline
+\end{tabular}
+
+\section{Замечания автора по существу работы}
+{\large 
+Программа работает за O(n).
+Можно было бы перемножать попарно не все элементы, а только половину и затем
+результат умножать на 2. Но на асимптотику это бы не повлияло.
+}
+
+\section{Выводы}
+{\large 
+В ходе выполнения лабораторной работы я познакомился с типом данных лист. Узнал 
+как он устроен (голова + хвост). Применил лямбда-выражение. Понял для чего оно
+нужно, а именно, для сокращения кода и лучшей читабельности программы. Приобрёл
+навыки обрабатывания списков.
+
+\end{document}
