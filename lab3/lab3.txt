@@ -1,0 +1,86 @@
+(defvar arr (make-array '(5 5) :initial-element 0))
+
+(defun print-matrix (matrix &optional (chars 3) stream)
+  ;; Предполагаем, что требуется
+  ;;  3 знака по умолчанию на каждый элемент,
+  ;;  6 знаков на #2A и скобки.
+  (let ((*print-right-margin* (+ 6 (* (1+ chars) ; плюс пробел
+                                      (array-dimension matrix 1)))))
+    (pprint matrix stream)
+    (values)))
+
+;; eval-when - для компилятора, чтобы
+;; употреблять [] ниже в том же файле
+(eval-when (:compile-toplevel :load-toplevel :execute)
+ (defun open-bracket-reader (stream char)
+   (declare (ignore char))
+   (cons 'aref (read-delimited-list #\] stream t)))
+
+ (set-macro-character #\[ #'open-bracket-reader)
+ (set-macro-character #\] (get-macro-character #\))) )
+
+(defvar arr (make-array '(5 5)))
+
+ (loop for i from 0 below 5 do 
+      (if (oddp i)
+          (loop for j from 0 to 4 do
+                (setf [arr i j] (+ (* 5 i) j)))
+        (loop for j downfrom 4 to 0 do
+              (setf [arr i j] (+ (* 5 i) j)))))
+
+(defun extra-fun (arr)
+  (defvar n (array-dimension arr 0))
+  (loop for i from 0 below n do 
+        (if (oddp i)
+            (loop for j from 0 to 4 do
+                  (setf [arr i j] (+ (* 5 i) j)))
+          (loop for j downfrom 4 to 0 do
+                (setf [arr i j] (+ (* 5 i) j))))
+        (return arr)))
+
+(defun clear (arr)
+  (defvar n (array-dimension arr 0))
+  (loop for i from 0 below n do 
+        (loop for j from 0 below n do
+              (setf [arr i j] 0))))
+
+(defun extra-fun (arr)
+  (defvar n (array-dimension arr 0))
+  (loop for i from 0 to n do 
+        (when (= i n) (return arr))
+        (if (oddp i)
+            (loop for j from 1 to n do
+                  (setf [arr i (- j 1)] (+ (* 5 i) j)))
+          (loop for j downfrom 4 to 0 do
+                (setf [arr i j] (+ (* 5 i) j))))))
+
+(defun extra-fun (ar)
+  (defvar n (array-dimension ar 0))
+  (loop for i from 0 to n do 
+        (when (= i n) (return ar))
+        (if (oddp i)
+            (loop for j from 1 to n do
+                  (setf [ar i (- j 1)] (+ (* n i) j)))
+          (loop for j downfrom n to 1 do
+                (setf [ar i (- n j)] (+ (* n i) j))))))
+
+
+(defun matrix-tr-br (n)
+  (let ((arr (make-array (list n n))))
+    (loop for i from 0 to n do 
+        (when (= i n) (return arr))
+        (if (oddp i)
+            (loop for j from 1 to n do
+                  (setf [arr i (- j 1)] (+ (* n i) j)))
+          (loop for j downfrom n to 1 do
+                (setf [arr i (- n j)] (+ (* n i) j)))))))
+
+(defun matrix-tr-br (n)
+  (let ((arr (make-array (list n n))))
+    (loop for i from 0 to n do 
+        (when (= i n) (return arr))
+        (if (oddp i)
+            (loop for j from 1 to n do
+                  (setf (aref arr i (- j 1)) (+ (* n i) j)))
+          (loop for j downfrom n to 1 do
+                (setf (aref arr i (- n j)) (+ (* n i) j)))))))
