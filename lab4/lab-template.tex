@@ -1,0 +1,137 @@
+\documentclass[12pt]{article}
+
+\usepackage{fullpage}
+\usepackage{multicol,multirow}
+\usepackage{tabularx}
+\usepackage{ulem}
+\usepackage[utf8]{inputenc}
+\usepackage[russian]{babel}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{graphicx}
+\usepackage{hyperref}
+
+\newcommand{\quotes}[1]{"#1"}
+
+
+\usepackage{titlesec}
+
+\titleformat{\section}
+  {\normalfont\Large\bfseries}{\thesection.}{0.3em}{}
+
+\titleformat{\subsection}
+  {\normalfont\large\bfseries}{\thesubsection.}{0.3em}{}
+
+\titlespacing{\section}{0pt}{*2}{*2}
+\titlespacing{\subsection}{0pt}{*1}{*1}
+\titlespacing{\subsubsection}{0pt}{*0}{*0}
+\usepackage{listings}
+\lstloadlanguages{Lisp}
+\lstset{extendedchars=false,
+	breaklines=true,
+	breakatwhitespace=true,
+	keepspaces = true,
+	tabsize=2
+}
+\begin{document}
+
+
+\section*{Отчет по лабораторной работе №\,4
+по курсу \guillemotleft  Функциональное программирование\guillemotright}
+\begin{flushright}
+Студент группы 8О-307 МАИ \textit{Спиридонов Кирилл}, \textnumero 18 по списку \\
+\makebox[7cm]{Контакты: {\tt vo-ro@list.ru} \hfill} \\
+\makebox[7cm]{Работа выполнена: 30.04.22 \hfill} \\
+\ \\
+Преподаватель: Иванов Дмитрий Анатольевич, доц. каф. 806 \\
+\makebox[7cm]{Отчет сдан: \hfill} \\
+\makebox[7cm]{Итоговая оценка: \hfill} \\
+\makebox[7cm]{Подпись преподавателя: \hfill} \\
+
+\end{flushright}
+
+\section{Тема работы}
+{\large Знаки и строки. \par}
+
+\section{Цель работы}
+{\large Освоить работу с типами данных CHARACTER, STRING. Научиться применять их на практике.\par}
+
+\section{Задание (вариант №4.36)}
+{\large 
+Запрограммировать на языке Коммон Лисп функцию, принимающую один аргумент - текст.
+
+Если в тексте нет малых букв, функция должна вернуть этот текст без изменения. 
+В противном случае функция должна вернуть копию текста, в котором после всех слов, 
+содержащих хотя бы одну малую букву, вставлен знак пунктуации , (запятая).
+
+Функция должна работать как для малых латинских, так и малых русских букв.
+}
+
+\section{Оборудование студента}
+{\large Процессор Intel(R) Core(TM) i5-8250U CPU @ 1.60GHz, память: 8192Gb, разрядность системы: 64.}
+
+\section{Программное обеспечение}
+{\large ОС Ubuntu 20.04 LTS, среда LispWorks Personal Edition 7.1.2}
+
+\section{Идея, метод, алгоритм}
+{\large 
+Идея алгоритма простая. Создаем новый список(текст), изначально пустой, туда мы будем записывать 
+предложения измененные или нет. Сначала пробегаемся по тексту, беря каждый элемент 
+списка(предложение). Создаем новое предложение, в которое мы будем копировать слова и другие
+символы. Далее пробегаемся по оригинальному предложению, беря каждый символ и записывая 
+в локальную переменную word, и если встретится пробел, табуляция или перевод
+строки, то проверяем наше слово. Проверяем мы наше слово на то, встретилась ли в
+нем lower-case буква, если встретилась, то добавляем к слову запятую, иначе оставляем
+слово таким, какое оно есть. Добавляем слово в новое предложение. Так же, когда мы
+бежим по оригинальному предложению, мы добавляем все символы не являющиеся словами.
+Измененное новое предложение добавляем в новый текст.}
+
+\section{Сценарий выполнения работы}
+
+\section{Распечатка программы и её результаты}
+
+\subsection{Исходный код}
+\lstinputlisting{./lab4.lisp}
+
+\subsection{Результаты работы}
+% \lstinputlisting{./log2.lisp}
+
+{\large 
+(change-text (list \quotes{Ночевала ТУЧКА ЗоЛоТаЯ \\
+На груди утеса-великана;} \quotes{А ааа ААА аа     а  })) \\
+(\quotes{Ночевала, ТУЧКА ЗоЛоТаЯ, \\
+На, груди, утеса-великана;,} \quotes{А ааа, ААА аа,     а,  }) \\
+\\
+(change-text (list \quotes{Cat  CAT } \quotes{масло ХЛЕБ РУЧКа    СТОЛ})) \\
+(\quotes{Cat,  CAT } \quotes{масло, ХЛЕБ РУЧКа,    СТОЛ}) \\
+}
+
+\section{Дневник отладки}
+\begin{tabular}{|c|c|c|c|}
+\hline
+Дата & Событие & Действие по исправлению & Примечание \\
+\hline
+\end{tabular}
+
+\section{Замечания автора по существу работы}
+{\large 
+	При выполнение столкнулся с такой проблемой: \\
+	Если попытаться выполнить следующее выражение: \\
+	(concatenate 'string \quotes{абв} \quotes{где} nil \quotes{ёжз}) \\
+	То получалась ошибка: \\
+	Error: \#\symbol{92}а (of type CHARACTER) is not of type BASE-CHAR. \\
+	Чтобы её решить пришлось обратиться к интернету. Решение было найдено на 
+	\href{https://stackoverflow.com/questions/57536507/how-to-correctly-detect-file-encodings-with-lispworks}{сайте}. 
+	Конкретно помогла конструкция: (lw:set-default-character-element-type 'cl:character). \\
+	Так же при попытке определить следующую функцию: \\ 
+	(defun whitespace-char-p (char) \\
+  (member char '(\#\symbol{92}Space \#\symbol{92}Tab \#\symbol{92}Newline))) \\
+  Возникала такая ошибка: Error: Redefining function WHITESPACE-CHAR-P visible from package LISPWORKS { *handle-warn-on-redefinition* is :ERROR }. Т.е. эта функция была уже встроена в мою версию CommonLisp.
+}
+
+\section{Выводы}
+{\large 
+В ходе выполнения лабораторной работы я познакомился с типами данных CHARACTER, STRING. 
+Узнал как с ними удобно работать. Воспользовался знаниями из предыдущих лабораторных работ,
+используя списки и циклы.
+\end{document}
